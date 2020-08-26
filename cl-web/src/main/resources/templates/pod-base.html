@@ -1,0 +1,12 @@
+<form action="#" th:action="@{/addpod}" method="post" enctype="multipart/form-data" th:object="${data}">
+    <label for="name">Name</label>
+    <input type="text" name="phone_no" id="phone_no" th:field="*{phoneNo}" placeholder="Phone No">
+    <label for="name">Logger ID</label>
+    <input type="text" name="logger_id" id="logger_id" th:field="*{loggerId}" placeholder="Logger ID">
+    <label for="name">Types</label>
+    <input type="text" name="fileTypes" id="filetypes" placeholder="?,?">
+    <div class="form-group">
+    	<input id="fileInput" type="file" name="uploadingFiles" multiple>
+    </div>
+    <input type="submit" value="Upload File">   
+</form>
