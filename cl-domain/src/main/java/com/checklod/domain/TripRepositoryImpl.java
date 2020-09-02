@@ -24,4 +24,15 @@ public class TripRepositoryImpl implements TripRepositoryCustom {
 		return Optional.of(resultList.get(0));
 	}
 
+	@Override
+	public Optional<TripSegment> findGoingLatestByTripId(long tripId) {
+		// TODO Auto-generated method stub
+		int limit = 1;
+		List<TripSegment> resultList = entityManager.createQuery("select ts from TripSegment ts where ts.tripSegmentId.tripId = ?1 ORDER BY ts.checkout DESC",
+				TripSegment.class).setParameter(1, tripId).setMaxResults(limit).getResultList();
+		if(resultList == null || resultList.isEmpty()) return null;
+		//
+		return Optional.of(resultList.get(0));
+	}
+
 }

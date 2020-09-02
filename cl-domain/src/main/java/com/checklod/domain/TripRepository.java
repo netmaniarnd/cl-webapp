@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface TripRepository extends CrudRepository<Trip, Long>, TripRepositoryCustom {
 	
 	public Optional<TripSegment> findGoingLatestByLogger(String loggerId);
+	public Optional<TripSegment> findGoingLatestByTripId(long tripId);
 }

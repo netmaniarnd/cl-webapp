@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface TripRepositoryCustom {
 
 	public Optional<TripSegment> findGoingLatestByLogger(String loggerId);
+	public Optional<TripSegment> findGoingLatestByTripId(long tripId);
 }

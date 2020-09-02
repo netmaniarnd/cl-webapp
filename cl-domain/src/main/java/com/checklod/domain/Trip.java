@@ -15,11 +15,10 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "Trip")
 public class Trip {
@@ -59,12 +58,12 @@ public class Trip {
     		cascade = CascadeType.ALL,
             orphanRemoval = true
 	)
-	private Set<TripSegment> tripSegments;
+    @ToString.Exclude private Set<TripSegment> tripSegments;
     
     @OneToMany(
     		mappedBy = "trip", 
     		cascade = CascadeType.ALL,
             orphanRemoval = true
 	)
-	private Set<TripMedia> tripMedias;
+    @ToString.Exclude private Set<TripMedia> tripMedias;
 }

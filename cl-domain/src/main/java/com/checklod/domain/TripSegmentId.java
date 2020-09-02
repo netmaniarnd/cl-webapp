@@ -4,11 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Embeddable
 public class TripSegmentId implements Serializable {
 

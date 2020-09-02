@@ -16,11 +16,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "TripSegment")
 public class TripSegment {
@@ -60,5 +59,5 @@ public class TripSegment {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tripId", nullable = false, insertable=false, updatable=false)
-    private Trip trip;
+    @ToString.Exclude private Trip trip;
 }
