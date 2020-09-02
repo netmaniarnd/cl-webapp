@@ -27,7 +27,7 @@ public class ReportServiceRefImpl implements ReportService {
 	@Override
 	public List<TripDTO> listAllTrips() {
 		// TODO Auto-generated method stub
-		Iterable<Trip> trips = tripRepository.findAll();
+		Iterable<Trip> trips = tripRepository.findByLastOneMonth();
 		log.debug("trips {}", trips);
 		trips.forEach(trip -> {
 			log.debug("trip info {}", trip);

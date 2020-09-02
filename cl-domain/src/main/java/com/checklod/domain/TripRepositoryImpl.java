@@ -26,13 +26,21 @@ public class TripRepositoryImpl implements TripRepositoryCustom {
 
 	@Override
 	public Optional<TripSegment> findGoingLatestByTripId(long tripId) {
-		// TODO Auto-generated method stub
 		int limit = 1;
 		List<TripSegment> resultList = entityManager.createQuery("select ts from TripSegment ts where ts.tripSegmentId.tripId = ?1 ORDER BY ts.checkout DESC",
 				TripSegment.class).setParameter(1, tripId).setMaxResults(limit).getResultList();
 		if(resultList == null || resultList.isEmpty()) return null;
 		//
 		return Optional.of(resultList.get(0));
+	}
+
+	@Override
+	public List<Trip> findByLastOneMonth() {
+		int limit = 100;
+		List<Trip> resultList = entityManager.createQuery("select t from Trip t where datediff(curdate(),t.createdAt)<=31 ORDER BY t.id DESC",
+				Trip.class).setMaxResults(limit).getResultList();
+		if(resultList == null || resultList.isEmpty()) return null;
+		return resultList;
 	}
 
 }
