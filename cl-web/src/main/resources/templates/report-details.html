@@ -1,0 +1,7 @@
+<div th:switch="${trip}">
+    <h2 th:case="null">No Data yet!</h2>
+    <div th:case="*">
+    	<h2>Data</h2>
+    	<div th:text="${trip.tripId}"></div>
+    </div>      
+</div>
