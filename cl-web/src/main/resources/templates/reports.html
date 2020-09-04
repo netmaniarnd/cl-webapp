@@ -11,7 +11,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="package : ${packages}">
-                	<td><a href="trip.html" th:href="@{${package.tripId}}" th:text="${package.tripId}">Trip List</a></td>
+                	<td><a href="trip.html" th:href="@{'/reports/'+${package.tripId}}" th:text="${package.tripId}">Trip List</a></td>
                     <td th:text="${package.invoiceId}"></td>
                 </tr>
             </tbody>
