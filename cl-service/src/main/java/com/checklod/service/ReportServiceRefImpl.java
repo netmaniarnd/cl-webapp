@@ -1,5 +1,6 @@
 package com.checklod.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public class ReportServiceRefImpl implements ReportService {
 	@Override
 	public List<TripDTO> listAllTrips() {
 		// TODO Auto-generated method stub
+		List<TripDTO> listTrip = new ArrayList<TripDTO>();
 		Iterable<Trip> trips = tripRepository.findByLastOneMonth();
 		log.debug("trips {}", trips);
 		trips.forEach(trip -> {
@@ -38,8 +40,12 @@ public class ReportServiceRefImpl implements ReportService {
 			//tripTemps.forEach(temp -> {
 			//	log.debug("temp info {}", temp.toString());
 			//});
+			TripDTO tripDTO = new TripDTO();
+			tripDTO.setTripId(Long.toString(trip.getId()));
+			tripDTO.setInvoiceId(trip.getInvoiceNo());
+			listTrip.add(tripDTO);
 		});
-		return null;
+		return listTrip;
 	}
 
 	@Override

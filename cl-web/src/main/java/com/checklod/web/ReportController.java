@@ -33,7 +33,7 @@ public class ReportController {
     public String reportDetails(@PathVariable("id") String tripId, Model model) {
 		
 		log.debug("tripId = {}", tripId);
-		long id = 1538;
+		long id = Long.parseLong(tripId);//1538;
 		TripDetailDTO trip = reportService.findTrip(id );
 		log.debug("trip = {}", trip);
 		model.addAttribute("trip", trip);

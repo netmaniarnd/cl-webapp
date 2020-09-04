@@ -1,17 +1,17 @@
 <div th:switch="${packages}">
     <h2 th:case="null">No Data yet!</h2>
         <div th:case="*">
-            <h2>Packages</h2>
+            <h2>배송 목록</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Trip ID</th>
-                        <th>Invoice ID</th>
+                        <th>상품</th>
+                        <th>송장 번호</th>
                     </tr>
                 </thead>
                 <tbody>
                 <tr th:each="package : ${packages}">
-                    <td th:text="${package.tripId}"></td>
+                	<td><a href="trip.html" th:href="@{${package.tripId}}" th:text="${package.tripId}">Trip List</a></td>
                     <td th:text="${package.invoiceId}"></td>
                 </tr>
             </tbody>

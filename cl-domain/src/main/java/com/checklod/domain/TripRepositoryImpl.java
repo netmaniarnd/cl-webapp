@@ -37,7 +37,8 @@ public class TripRepositoryImpl implements TripRepositoryCustom {
 	@Override
 	public List<Trip> findByLastOneMonth() {
 		int limit = 100;
-		List<Trip> resultList = entityManager.createQuery("select t from Trip t where datediff(curdate(),t.createdAt)<=31 ORDER BY t.id DESC",
+		// TODO dev:10, read:31
+		List<Trip> resultList = entityManager.createQuery("select t from Trip t where datediff(curdate(),t.createdAt)<=10 ORDER BY t.id DESC",
 				Trip.class).setMaxResults(limit).getResultList();
 		if(resultList == null || resultList.isEmpty()) return null;
 		return resultList;
