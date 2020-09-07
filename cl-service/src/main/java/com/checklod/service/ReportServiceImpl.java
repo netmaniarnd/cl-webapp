@@ -1,5 +1,6 @@
 package com.checklod.service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.checklod.domain.Logger;
+import com.checklod.domain.LoggerRepository;
 import com.checklod.domain.TemperatureLog;
 import com.checklod.domain.TemperatureRepository;
 import com.checklod.domain.Trip;
@@ -17,13 +20,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class ReportServiceRefImpl implements ReportService {
+public class ReportServiceImpl implements ReportService {
 
 	@Autowired
 	private TripRepository tripRepository;
 	
 	@Autowired
 	private TemperatureRepository temperatureRepository;
+	
+	@Autowired
+	private LoggerRepository loggerRepository;
 	
 	@Override
 	public List<TripDTO> listAllTrips() {
@@ -40,9 +46,29 @@ public class ReportServiceRefImpl implements ReportService {
 			//tripTemps.forEach(temp -> {
 			//	log.debug("temp info {}", temp.toString());
 			//});
+			if(tripTemps == null || tripTemps.size() == 0) {
+				log.warn("skip no segment trip");
+				return;
+			}
 			TripDTO tripDTO = new TripDTO();
 			tripDTO.setTripId(Long.toString(trip.getId()));
 			tripDTO.setInvoiceId(trip.getInvoiceNo());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			tripDTO.setStartDate(tripSegment.get().getCheckin().format(formatter));
+			GoingStatus goingStatus = GoingStatus.get(trip.getGoingStatus());
+			tripDTO.setGoingStatus(goingStatus.getLabel());
+			tripDTO.setProveTemp(tripTemps.get(0).getIntTemp());
+			float maxTemp = 0.0f;
+			tripDTO.setMaxTemp(maxTemp );
+			float minTemp = 0.0f;
+			tripDTO.setMinTemp(minTemp );
+			tripDTO.setDriverName(tripSegment.get().getDriverName());
+			tripDTO.setPhoneNo(tripSegment.get().getPhoneNo());
+			tripDTO.setVehicleNo(tripSegment.get().getVehicleNo());
+			Optional<Logger> logger = loggerRepository.findById(tripSegment.get().getLoggerId());
+			tripDTO.setLoggerAlias(logger.get().getAlias());
+			//
+			log.debug("tripDTO {}", tripDTO.toString());
 			listTrip.add(tripDTO);
 		});
 		return listTrip;

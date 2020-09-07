@@ -10,7 +10,12 @@ import lombok.Data;
 @Embeddable
 public class TripSegmentId implements Serializable {
 
-    private long tripId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private long tripId;
     
     private int seq;
     
