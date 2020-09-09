@@ -1,25 +1,81 @@
-<div th:switch="${users}">
-    <h2 th:case="null">No users yet!</h2>
-        <div th:case="*">
-            <h2>Users</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr th:each="user : ${users}">
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
-                    <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>      
-    <p><a href="/signup">Add a new user</a></p>
-</div>
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta name="description" content="Welcome to jiniworld!">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CheckLOD Dashboard</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link
+	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700,900&amp;subset=korean"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/css/common.css}" />
+</head>
+<body>
+	<header>
+		<a th:href="@{/index}"><img th:src="@{/static/img/logo.png}"
+			width="50" height="auto" alt="demo page" id="btn_home" /></a>
+		<ul>
+			<li sec:authorize="isAuthenticated()"><span
+				sec:authentication="principal.username"></span> 님 반가워요!</li>
+			<li><form id="logoutFrm" th:action="@{/logout}" method="post"
+					style="display: inline-block;">
+					<a href="#" onclick="document.getElementById('logoutFrm').submit()"
+						data-toggle="tooltip" data-placement="logout" title="Logout"><i
+						class="fa fa-power-off"></i></a>
+				</form></li>
+		</ul>
+	</header>
+	<nav class="navbar navbar-expand-lg navbar-light" id="nav_area">
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#nav_menu_area">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="nav_menu_area">
+			<ul class="navbar-nav" id="nav_menu">
+				<li class='nav-item'
+					th:classappend="${currentPage eq 'home'} ? 'active' : ''"
+					th:attr="data-href=@{/index}">HOME</li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')" class='nav-item'
+					th:classappend="${currentPage eq 'user'} ? 'active' : ''"
+					th:attr="data-href=@{/reports}">REPORTS</li>
+			</ul>
+		</div>
+	</nav>
+	<section>
+		<div class="container">
+			<div class="d-title">
+				<h2>Hello Dashboard</h2>
+			</div>
+			<div class="d-content">
+				<div class="row">
+					<ul>
+						<li><a href="/pod">송장이미지 전송하기</a></li>
+						<li><a href="/reports">REPORTS</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer>
+		<p>CheckLOD - ProtoType</p>
+	</footer>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script>
+		$("#nav_menu_area #nav_menu li").on("click", function() {
+			$("#nav_menu_area #nav_menu li").removeClass("active");
+			$(this).addClass("active");
+			location.href = $(this).data('href');
+		});
+	</script>
+</body>
+</html>
