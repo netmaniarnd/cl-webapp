@@ -44,4 +44,13 @@ public class TripRepositoryImpl implements TripRepositoryCustom {
 		return resultList;
 	}
 
+	@Override
+	public List<TripMedia> findTripMediaByTripId(long tripId) {
+		// TODO Auto-generated method stub
+		List<TripMedia> resultList = entityManager.createQuery("select t from TripMedia t where t.trip.id = ?1",
+				TripMedia.class).setParameter(1, tripId).getResultList();
+		if(resultList == null || resultList.isEmpty()) return null;
+		return resultList;
+	}
+
 }

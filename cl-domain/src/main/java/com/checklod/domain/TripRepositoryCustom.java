@@ -11,4 +11,5 @@ public interface TripRepositoryCustom {
 	public Optional<TripSegment> findGoingLatestByLogger(String loggerId);
 	public Optional<TripSegment> findGoingLatestByTripId(long tripId);
 	public List<Trip> findByLastOneMonth();
+	public List<TripMedia> findTripMediaByTripId(long tripId);
 }
