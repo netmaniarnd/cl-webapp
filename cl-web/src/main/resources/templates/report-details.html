@@ -94,23 +94,28 @@
 							<div th:case="*">
 								<div class="row">
 									<div class="table-responsive">
-										<table class="table table-striped">
-											<thead>
-												<tr class="text-center">
-													<th>No</th>
-													<th>Date/Time</th>
-													<th>℃</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr class="text-center" th:object="${pointTemp}"
-													th:each="pointTemp, pointStat : ${trip.listTemp}">
-													<td th:text="${pointStat.count}"></td>
-													<td th:text="*{point}"></td>
-													<td th:text="*{proveTemp}"></td>
-												</tr>
-											</tbody>
-										</table>
+										<div th:switch="${trip.listTemp}">
+											<h2 th:case="null">No Data yet!</h2>
+											<div th:case="*">
+												<table class="table table-striped">
+													<thead>
+														<tr class="text-center">
+															<th>No</th>
+															<th>Date/Time</th>
+															<th>℃</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr class="text-center" th:object="${pointTemp}"
+															th:each="pointTemp, pointStat : ${trip.listTemp}">
+															<td th:text="${pointStat.count}"></td>
+															<td th:text="*{point}"></td>
+															<td th:text="*{proveTemp}"></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -120,7 +125,8 @@
 						<th:block th:switch="${mediaInfo.imgType}">
 							<div th:case="'A'" th:text="송장"></div>
 							<div th:case="'B'" th:text="영수증"></div>
-							<div th:case="*" th:text="기타"></div>
+							<div th:case="Z" th:text="기타"></div>
+							<div th:case="null" th:text="촬영된 사진이 없습니다."></div>
 						</th:block>
 						<div>
 							<img th:src="${mediaInfo.imgUrl}" width="70%" height="70%"></img>
