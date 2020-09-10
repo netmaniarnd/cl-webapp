@@ -70,34 +70,68 @@
 			<div th:switch="${trip}">
 				<h2 th:case="null">No Data yet!</h2>
 				<div th:case="*">
-					<h2>Dummy Data</h2>
+					<h2 th:text="${trip.tripId}"></h2>
 					<div th:object="${trip}">
-						<div th:text="*{tripId}"></div>
-						<div th:text="*{reportSummary}"></div>
-						<div th:text="${duration}"></div>
-						<div th:text="*{devieInfo}"></div>
-						<div th:text="*{driverName}"></div>
-						<div th:text="*{phoneNo}"></div>
-						<div th:text="*{vehicleNo}"></div>
-						<div th:text="*{loggerAlias}"></div>
-						<div th:text="*{listTemp}"></div>
-						<div th:text="*{listMedia}"></div>
+						<section>
+							<div th:text="'최고 온도 : '+*{reportSummary.maxTemp}+'℃'"></div>
+							<div th:text="'최저 온도 : '+*{reportSummary.minTemp}+'℃'"></div>
+							<div th:text="'기록시간 : '+${duration}"></div>
+							<div th:text="'경고 누적 : '+*{reportSummary.alarmCount}+'회'"></div>
+							<div th:text="'배터리 잔량 : '+*{reportSummary.batteryPower}+'%'"></div>
+							<!-- <div th:text="'디바이스 : '+*{devieInfo.alarm}"></div> -->
+							<div th:text="'운전자 : '+*{driverName}"></div>
+							<div th:text="'전화번호 : '+*{phoneNo}"></div>
+							<div th:text="'차량번호 : '+*{vehicleNo}"></div>
+							<div th:text="'디바이스 : '+*{loggerAlias}"></div>
+						</section>
 					</div>
-					<div>
+					<section>
 						<canvas id="chart" height="450" width="600"></canvas>
-					</div>
-					<table>
-						<tr th:each="mediaInfo : ${trip.listMedia}">
-							<td><th:block th:switch="${mediaInfo.imgType}">
-									<div th:case="'A'" th:text="송장"></div>
-									<div th:case="'B'" th:text="영수증"></div>
-									<div th:case="Z" th:text="기타"></div>
-								</th:block>
-								<div>
-									<img th:src="${mediaInfo.imgUrl}" width="70%" height="70%"></img>
-								</div></td>
-						</tr>
-					</table>
+					</section>
+					<section>
+						<div th:switch="${trip}">
+							<h2 th:case="null">No Data yet!</h2>
+							<div th:case="*">
+								<div class="row">
+									<div class="table-responsive">
+										<div th:switch="${trip.listTemp}">
+											<h2 th:case="null">No Data yet!</h2>
+											<div th:case="*">
+												<table class="table table-striped">
+													<thead>
+														<tr class="text-center">
+															<th>No</th>
+															<th>Date/Time</th>
+															<th>℃</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr class="text-center" th:object="${pointTemp}"
+															th:each="pointTemp, pointStat : ${trip.listTemp}">
+															<td th:text="${pointStat.count}"></td>
+															<td th:text="*{point}"></td>
+															<td th:text="*{proveTemp}"></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section th:each="mediaInfo : ${trip.listMedia}">
+						<th:block th:switch="${mediaInfo.imgType}">
+							<div th:case="'A'" th:text="송장"></div>
+							<div th:case="'B'" th:text="영수증"></div>
+							<div th:case="Z" th:text="기타"></div>
+							<div th:case="null" th:text="촬영된 사진이 없습니다."></div>
+						</th:block>
+						<div>
+							<img th:src="${mediaInfo.imgUrl}" width="70%" height="70%"></img>
+						</div>
+					</section>
 				</div>
 			</div>
 		</div>
