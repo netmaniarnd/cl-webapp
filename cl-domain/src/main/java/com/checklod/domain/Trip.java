@@ -58,12 +58,22 @@ public class Trip {
     		cascade = CascadeType.ALL,
             orphanRemoval = true
 	)
-    @ToString.Exclude private Set<TripSegment> tripSegments;
+    @ToString.Exclude 
+    private Set<TemperatureLog> temperatureLogs;
     
     @OneToMany(
     		mappedBy = "trip", 
     		cascade = CascadeType.ALL,
             orphanRemoval = true
 	)
-    @ToString.Exclude private Set<TripMedia> tripMedias;
+    @ToString.Exclude 
+    private Set<TripSegment> tripSegments;
+    
+    @OneToMany(
+    		mappedBy = "trip", 
+    		cascade = CascadeType.ALL,
+            orphanRemoval = true
+	)
+    @ToString.Exclude 
+    private Set<TripMedia> tripMedias;
 }

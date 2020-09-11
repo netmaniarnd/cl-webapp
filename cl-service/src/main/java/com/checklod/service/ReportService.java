@@ -10,4 +10,8 @@ public interface ReportService {
 	public List<TripDTO> listAllTrips();
 
 	public TripDetailDTO findTrip(long id);
+	
+	public FrontDTO getFront();
+	
+	public List<VehicleTripDTO> getVehicleTrips(String vehicleName);
 }

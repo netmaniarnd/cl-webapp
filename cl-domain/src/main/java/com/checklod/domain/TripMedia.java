@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -27,17 +28,20 @@ public class TripMedia {
     private long id;
     
     @NotNull(message = "imgType is mandatory")
+    @Column(name="ImgType", nullable = false, updatable = false)
     private String imgType;
     
     @NotNull(message = "imgUrl is mandatory")
+    @Column(name="ImgUrl", nullable = false, updatable = false)
     private String imgUrl;
     
-    @Column(nullable = false, updatable = false)
+    @Column(name="createdAt", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "tripId", nullable = false)
+    @ToString.Exclude
     private Trip trip;
 
 }

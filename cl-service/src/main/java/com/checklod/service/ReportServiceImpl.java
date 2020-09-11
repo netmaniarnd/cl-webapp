@@ -9,8 +9,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.stereotype.Service;
 
+import com.checklod.api_repo.ApiRepository;
+import com.checklod.api_repo.VehicleSummary;
 import com.checklod.domain.Logger;
 import com.checklod.domain.LoggerRepository;
 import com.checklod.domain.TemperatureLog;
@@ -24,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@EntityScan("com.checklod.domain")
 public class ReportServiceImpl implements ReportService {
 
 	@Autowired
@@ -34,6 +38,9 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	private LoggerRepository loggerRepository;
+	
+	@Autowired
+	private ApiRepository apiRepository;
 	
 	@Override
 	public List<TripDTO> listAllTrips() {
@@ -71,7 +78,7 @@ public class ReportServiceImpl implements ReportService {
 			tripDTO.setDriverName(lastSegment.getDriverName());
 			tripDTO.setPhoneNo(lastSegment.getPhoneNo());
 			tripDTO.setVehicleNo(lastSegment.getVehicleNo());
-			String loggerId = lastSegment.getLoggerId();
+			String loggerId = lastSegment.getLogger().getId();
 			String alias = getLoggerAlias(loggerId);
 			tripDTO.setLoggerAlias(alias);
 			//
@@ -106,12 +113,12 @@ public class ReportServiceImpl implements ReportService {
 		reportSummary.setPointEnd(points.get("end"));
 		tripDetailDTO.setReportSummary(reportSummary );
 		//
-		DeviceInfo devieInfo = new DeviceInfo(lastSegment.getLoggerId());
+		DeviceInfo devieInfo = new DeviceInfo(lastSegment.getLogger().getId());
 		tripDetailDTO.setDevieInfo(devieInfo );
 		tripDetailDTO.setDriverName(lastSegment.getDriverName());
 		tripDetailDTO.setPhoneNo(lastSegment.getPhoneNo());
 		tripDetailDTO.setVehicleNo(lastSegment.getVehicleNo());
-		String alias = getLoggerAlias(lastSegment.getLoggerId());
+		String alias = getLoggerAlias(lastSegment.getLogger().getId());
 		tripDetailDTO.setLoggerAlias(alias);
 		//
 		float minTemp[] = {Float.MAX_VALUE};
@@ -144,6 +151,55 @@ public class ReportServiceImpl implements ReportService {
 		//
 		log.debug("tripDetailDTO {}", tripDetailDTO.toString());
 		return tripDetailDTO;
+	}
+
+	@Override
+	public FrontDTO getFront() {
+		// TODO Auto-generated method stub
+		FrontDTO frontDTO = new FrontDTO();
+		FrontSummary frontSummary = new FrontSummary();
+		List<VehicleSummary> vehicleSummary = apiRepository.getVehicleSummary();
+		log.info("array size = {}", vehicleSummary.size());
+		//
+		List<VehicleSummary> al = new ArrayList<VehicleSummary>();
+		vehicleSummary.forEach(item -> {
+			al.add(item);
+		});
+		
+		VehicleSummary dailySummary = al.remove(al.size() - 1);
+		frontDTO.setFrontSummary(frontSummary);
+		//List<VehicleSummary> vehicleSummary = new ArrayList<VehicleSummary>();
+		frontDTO.setVehicleSummary(al);
+		frontDTO.setDailySummary(dailySummary);
+		List<Long> runAways = apiRepository.getRunawayList();
+		frontDTO.setRunAways(runAways);
+		//
+		frontSummary.setTotal(dailySummary.getTotal());
+		frontSummary.setGoing(dailySummary.getGoing());
+		frontSummary.setArrived(dailySummary.getArrived());
+		frontSummary.setSigned(dailySummary.getSigned());
+		frontSummary.setReported(dailySummary.getReported());
+		frontSummary.setRunAway(dailySummary.getRunAway());
+		//
+		log.debug("getFront {}", frontDTO.toString());
+		return frontDTO;
+	}
+
+	@Override
+	public List<VehicleTripDTO> getVehicleTrips(String vehicleName) {
+		List<VehicleTripDTO> result = new ArrayList<VehicleTripDTO>();
+		VehicleTripDTO vehicleTrip = new VehicleTripDTO();
+		vehicleTrip.setVehicleNo(vehicleName);
+		vehicleTrip.setStartDate("09/09/2020");
+		vehicleTrip.setTripId(Long.toString(1587L));
+		vehicleTrip.setGoingStatus("서명완료");
+		vehicleTrip.setDriverName("A30_01");
+		vehicleTrip.setPhoneNo("01087584865");
+		result.add(vehicleTrip );
+		//
+		log.debug("getVehicleTrips {} {}", vehicleName, result.toString());
+		// TODO Auto-generated method stub
+		return result ;
 	}
 
 	private Map<String, Float> getTempRange(List<TemperatureLog> tripTemps) {

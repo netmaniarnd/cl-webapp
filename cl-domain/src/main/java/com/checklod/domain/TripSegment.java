@@ -52,12 +52,14 @@ public class TripSegment {
     
     @UpdateTimestamp
     private LocalDateTime checkout;
-    
-    @NotNull(message = "logger id is mandatory")
-    @Column(name="loggerId")
-    private String loggerId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "tripId", nullable = false, insertable=false, updatable=false)
-    @ToString.Exclude private Trip trip;
+    @ToString.Exclude 
+    private Trip trip;
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "loggerId", nullable = false, insertable=false, updatable=false)
+    @ToString.Exclude 
+    private Logger logger;
 }

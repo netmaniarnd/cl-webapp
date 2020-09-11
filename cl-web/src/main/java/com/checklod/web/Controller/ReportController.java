@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.checklod.service.FrontDTO;
 import com.checklod.service.ReportService;
 import com.checklod.service.TripDTO;
 import com.checklod.service.TripDetailDTO;
@@ -20,6 +21,17 @@ public class ReportController {
 
 	@Autowired
 	private ReportService reportService;
+	
+	@GetMapping("/front")
+    public String front(Model model) {
+		
+        FrontDTO data = reportService.getFront();
+        log.debug(data.toString());
+        //TODO need to be modified
+		model.addAttribute("packages", null);
+        //TODO need to be modified
+		return "reports";
+	}
 	
 	@GetMapping("/reports")
     public String reports(Model model) {

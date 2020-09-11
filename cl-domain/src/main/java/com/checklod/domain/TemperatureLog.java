@@ -2,40 +2,47 @@ package com.checklod.domain;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 @Entity
+@IdClass(TripSegmentId.class)
 @Table(name = "TemperatureLog")
 public class TemperatureLog {
-    
-    @Id
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    @NotNull(message = "tripId is mandatory")
-    @Column(name="tripId")
-    private long tripId;
     
-    @NotNull(message = "seq is mandatory")
-    @Column(name="seq")
-    private int seq;
-
-    @NotNull(message = "loggerId is mandatory")
-    @Column(name="loggerId")
-    private String loggerId;
+	@EmbeddedId
+	@AttributeOverrides({
+		  @AttributeOverride( name = "tripId", column = @Column(name = "tripId")),
+		  @AttributeOverride( name = "seq", column = @Column(name = "seq", insertable=false, updatable=false))
+		})
+	@Getter(value=AccessLevel.NONE)
+	@Setter(value=AccessLevel.NONE)
+    private TripSegmentId tripSegmentId;
 
     @Column(name="temperature")
     private float temperature;
@@ -65,10 +72,53 @@ public class TemperatureLog {
     @Column(name="ext_hum")
     private float extHum;
 
-    @Column(name="phone_no")
-    private String phoneNo;
-
     @Column(name="ip_addr")
     private String ipAddr;
 
+    @ToString.Exclude 
+    private Trip trip;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "tripId", nullable = false, insertable=false, updatable=false)
+    public Trip getTrip() {
+    	return trip;
+    }
+
+    @ToString.Exclude 
+    private Phone phone;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "phone_no", nullable = false, insertable=false, updatable=false)
+    public Phone getPhone() {
+    	return phone;
+    }
+    
+    @ToString.Exclude 
+    private Logger logger;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "loggerId", nullable = false, insertable=false, updatable=false)
+    public Logger getLogger() {
+    	return logger;
+    }
+
+    @Id
+    public long getTripId() {
+       return tripSegmentId.getTripId();
+    }
+
+    @Id
+    public void setTripId(long tripId) {
+       tripSegmentId.setTripId(tripId);
+    }
+
+    @Id
+    public int getSeq() {
+       return tripSegmentId.getSeq();
+    }
+
+    @Id
+    public void setSeq(int seq) {
+       tripSegmentId.setSeq(seq);
+    }
 }
