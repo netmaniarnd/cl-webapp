@@ -1,8 +1,6 @@
 package com.checklod.web.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/**").hasRole("VIEW").and() // 로그인 설정
 				.formLogin()
 				.loginPage("/login")
-				.defaultSuccessUrl("/index", true)
+				.defaultSuccessUrl("/front", true)
 				.permitAll()
 				.and().csrf().disable();
 //    .and() // 로그아웃 설정

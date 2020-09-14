@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<title>CheckLOD Dashboard</title>
+<th:block th:replace="fragment/config ::configFragment"></th:block>
+</head>
+<body>
+	<th:block th:replace="fragment/header ::headerFragment"></th:block>
+	<th:block th:replace="fragment/nav ::navFragment"></th:block>
+	<section>
+		<div class="container">
+			<div class="d-title">
+				<h2>SETTING</h2>
+			</div>
+		</div>
+	</section>
+	<th:block th:replace="fragment/footer ::footerFragment"></th:block>
+</body>
+</html>
+

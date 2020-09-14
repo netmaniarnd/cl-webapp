@@ -1,12 +1,31 @@
-<form action="#" th:action="@{/addpod}" method="post" enctype="multipart/form-data" th:object="${data}">
-    <label for="name">Name</label>
-    <input type="text" name="phone_no" id="phone_no" th:field="*{phoneNo}" placeholder="Phone No">
-    <label for="name">Logger ID</label>
-    <input type="text" name="logger_id" id="logger_id" th:field="*{loggerId}" placeholder="Logger ID">
-    <label for="name">Types</label>
-    <input type="text" name="fileTypes" id="filetypes" placeholder="?,?">
-    <div class="form-group">
-    	<input id="fileInput" type="file" name="uploadingFiles" multiple>
-    </div>
-    <input type="submit" value="Upload File">   
-</form>
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<title>CheckLOD Dashboard</title>
+<th:block th:replace="fragment/config ::configFragment"></th:block>
+</head>
+<body>
+	<th:block th:replace="fragment/header ::headerFragment"></th:block>
+	<th:block th:replace="fragment/nav ::navFragment"></th:block>
+	<section>
+		<div class = "container">
+			<form action="#" th:action="@{/addpod}" method="post"
+				enctype="multipart/form-data" th:object="${data}">
+				<label for="name">Name</label> <input type="text" name="phone_no"
+					id="phone_no" th:field="*{phoneNo}" placeholder="Phone No">
+				<label for="name">Logger ID</label> <input type="text"
+					name="logger_id" id="logger_id" th:field="*{loggerId}"
+					placeholder="Logger ID"> <label for="name">Types</label> <input
+					type="text" name="fileTypes" id="filetypes" placeholder="?,?">
+				<div class="form-group">
+					<input id="fileInput" type="file" name="uploadingFiles" multiple>
+				</div>
+				<input type="submit" value="Upload File">
+			</form>
+		</div>
+	</section>
+	<th:block th:replace="fragment/footer ::footerFragment"></th:block>
+</body>
+</html>
+

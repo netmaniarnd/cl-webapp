@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan({"com.checklod.web","com.checklod.service","com.checklod.domain","com.checklod.api_repo"})
+@ComponentScan({"com.checklod.web","com.checklod.service","com.checklod.domain", "com.checklod.api_repo"})
 @EnableJpaRepositories("com.checklod.domain")
 @EntityScan("com.checklod.domain")
 public class ChecklodDashboardApplication {

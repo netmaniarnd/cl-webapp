@@ -1,0 +1,19 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<div th:fragment="headerFragment">
+	<header>
+		<a th:href="@{/front}"><img th:src="@{/static/img/originlogo.png}"
+			width="230" height="auto" alt="demo page" id="btn_home" /></a>
+		<ul>
+			<li sec:authorize="isAuthenticated()"><span
+				sec:authentication="principal.username"></span> 님 반가워요!</li>
+			<li><form id="logoutFrm" th:action="@{/logout}" method="post"
+					style="display: inline-block;">
+					<a href="#" onclick="document.getElementById('logoutFrm').submit()"
+						data-toggle="tooltip" data-placement="logout" title="Logout"><i
+						class="fa fa-power-off"></i></a>
+				</form></li>
+		</ul>
+	</header>
+</div>
+</html>

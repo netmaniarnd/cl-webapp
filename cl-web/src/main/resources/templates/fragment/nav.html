@@ -1,0 +1,30 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<div th:fragment="navFragment">
+	<nav class="navbar navbar-expand-lg navbar-light" id="nav_area">
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#nav_menu_area">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="nav_menu_area">
+			<ul class="navbar-nav" id="nav_menu">
+				<li class='nav-item'
+					th:classappend="${currentPage eq 'home'} ? 'active' : ''"
+					th:attr="data-href=@{/front}">HOME</li>
+				<li sec:authorize="hasRole('ROLE_VIEW')" class='nav-item'
+					th:classappend="${currentPage eq 'monitor'} ? 'active' : ''"
+					th:attr="data-href=@{/page-monitor}">MONITOR</li>
+				<li sec:authorize="hasRole('ROLE_VIEW')" class='nav-item'
+					th:classappend="${currentPage eq 'reports'} ? 'active' : ''"
+					th:attr="data-href=@{/reports}">REPORTS</li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')" class='nav-item'
+					th:classappend="${currentPage eq 'setting'} ? 'active' : ''"
+					th:attr="data-href=@{/dev-trip-setting}">SETTING</li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')" class='nav-item'
+					th:classappend="${currentPage eq 'datamng'} ? 'active' : ''"
+					th:attr="data-href=@{/dev-datamng}">DATA MANAGE</li>
+			</ul>
+		</div>
+	</nav>
+</div>
+</html>

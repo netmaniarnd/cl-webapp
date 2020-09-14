@@ -1,1 +1,14 @@
 /.project
+/.settings/
+.gitignore
+cl-domain/.gitignore
+cl-domain/src/main/java/com/checklod/domain/Driver.java
+cl-domain/src/main/java/com/checklod/domain/Invoice.java
+cl-domain/src/main/java/com/checklod/domain/LoggerSignal.java
+cl-domain/src/main/java/com/checklod/domain/PhoneSignal.java
+cl-domain/src/main/java/com/checklod/domain/Sampling5Min.java
+cl-domain/src/main/java/com/checklod/domain/Sampling10Min.java
+cl-domain/src/main/java/com/checklod/domain/TemperatureLog.java
+cl-domain/src/main/java/com/checklod/domain/TripSegment.java
+cl-service/.gitignore
+cl-service/src/main/java/com/checklod/service/ReportServiceImpl.java
