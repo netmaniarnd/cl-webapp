@@ -1,10 +1,6 @@
-package com.checklod.web.Controller;
+package com.checklod.web.controller;
 
-import java.io.Console;
-import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,15 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.checklod.service.PointTemp;
 import com.checklod.service.ReportService;
 import com.checklod.service.TripDTO;
 import com.checklod.service.TripDetailDTO;
-import com.checklod.web.Dummy;
 import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +51,8 @@ public class ReportController {
 				trip.getReportSummary().getPointEnd()) % 60;
 		String duration = String.format("%d시간 %d분 %d초", hours, minutes, seconds);
 		
+		System.out.println(trip);
+		
 		model.addAttribute("trip", trip);
 		model.addAttribute("duration", duration);
 		return "report-details";
@@ -71,7 +66,9 @@ public class ReportController {
 		Gson gson = new Gson();
 
 		long id = Long.parseLong(tripId);
-
+		
+		System.out.println(id);
+		
 		List<PointTemp> list = reportService.findTrip(id).getListTemp();
 
 		return gson.toJson(list);
