@@ -32,4 +32,13 @@ class ApiRepositoryTest {
 		System.out.println(listVehicle.size());
 	}
 
+	@Test
+	void testGetVehicleTrips() {
+		assertNotNull(apiRepository);
+		//NET_05
+		List<VehicleTripVO> listVehicle = apiRepository.getVehicleTrips("NET_05");
+		assertNotNull(listVehicle);
+		System.out.println(listVehicle.size());
+	}
+
 }

@@ -3,6 +3,7 @@ package com.checklod.api_repo;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -11,11 +12,13 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ApiRepositoryImpl implements ApiRepository {
 	
-    // Both RestTemplate and URI instances can be cached
+    private static final String URI_TEMPLATE_VEHICLE_TRIP = "https://dev.checklod.com/tnt-ex-mgr-pilot/service/dashboard-vehicle.php?id=%s&duration=0";
+	// Both RestTemplate and URI instances can be cached
     private static final RestTemplate restTemplate = new RestTemplate();
     private static final URI uri = URI.create("https://dev.checklod.com/tnt-ex-mgr-pilot/service/api.php/dashboards/goods");
     //private static final URI uri2 = URI.create("https://dev.checklod.com/tnt-ex-mgr-pilot/service/api.php/dashboards/brackaway");
     private static final URI uri3 = URI.create("https://dev.checklod.com/tnt-ex-mgr-pilot/service/api.php/dashboards/brackawaytrip");
+    //private static final URI uri4 = URI.create(URI_TEMPLATE_VEHICLE_TRIP);
 
 	@Override
 	public List<VehicleSummary> getVehicleSummary() {
@@ -29,14 +32,8 @@ public class ApiRepositoryImpl implements ApiRepository {
 	    List<VehicleSummaryAdapter> summaryTemp = Arrays.asList(forNow);
 	    summaryTemp.forEach(item -> {
 	    	System.out.println(item.toString());
-	    	VehicleSummary row = new VehicleSummary();
-	    	row.setName(item.getVehicleNo());
-	    	row.setTotal(item.getTotal());
-	    	row.setGoing(item.getState2());
-	    	row.setArrived(item.getState3());
-	    	row.setSigned(item.getState4());
-	    	row.setReported(item.getState5());
-	    	summary.add(row);
+			VehicleSummary row = item.convert();
+	    	summary.add(row );
 	    });
     	System.out.println("array size = " + summary.size());
 	    //
@@ -54,6 +51,21 @@ public class ApiRepositoryImpl implements ApiRepository {
 	    //});
     	//System.out.println("array size = " + summary.size());
 		return forNow.getExtra();
+	}
+
+	@Override
+	public List<VehicleTripVO> getVehicleTrips(String vehicleNo) {
+		String enc = Base64.getEncoder().encodeToString(vehicleNo.getBytes());
+		// TODO Auto-generated method stub
+		URI uri4 = URI.create(String.format(URI_TEMPLATE_VEHICLE_TRIP, enc));
+		List<VehicleTripVO> summary = new ArrayList<VehicleTripVO>();
+		VehicleTripAdapter[] forNow = restTemplate.getForObject(uri4, VehicleTripAdapter[].class);
+	    List<VehicleTripAdapter> summaryTemp = Arrays.asList(forNow);
+	    summaryTemp.forEach(item -> {
+	    	System.out.println(item.convert());
+	    	summary.add(item.convert());
+	    });
+		return summary;
 	}
 
 }

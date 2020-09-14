@@ -10,4 +10,6 @@ public interface ApiRepository {
 	public List<VehicleSummary> getVehicleSummary();
 
 	public List<Long> getRunawayList();
+
+	public List<VehicleTripVO> getVehicleTrips(String vehicleNo);
 }
