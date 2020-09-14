@@ -2,6 +2,7 @@ package com.checklod.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.Data;
@@ -15,8 +16,10 @@ public class TripSegmentId implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Column(name = "tripId")
 	private long tripId;
     
+	@Column(name = "seq")
     private int seq;
     
  // default constructor

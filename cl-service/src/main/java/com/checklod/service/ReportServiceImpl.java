@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.stereotype.Service;
@@ -44,7 +43,6 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Override
 	public List<TripDTO> listAllTrips() {
-		// TODO Auto-generated method stub
 		List<TripDTO> listTrip = new ArrayList<TripDTO>();
 		Iterable<Trip> trips = tripRepository.findByLastOneMonth();
 		log.debug("trips {}", trips);
@@ -69,7 +67,7 @@ public class ReportServiceImpl implements ReportService {
 			tripDTO.setStartDate(lastSegment.getCheckin().format(formatter));
 			GoingStatus goingStatus = GoingStatus.get(trip.getGoingStatus());
 			tripDTO.setGoingStatus(goingStatus.getLabel());
-			tripDTO.setProveTemp(tripTemps.get(0).getIntTemp());
+			tripDTO.setProveTemp(tripTemps.iterator().next().getIntTemp());
 			//
 			Map<String, Float> tempRange = getTempRange(tripTemps);
 			tripDTO.setMaxTemp(tempRange.get("max"));
@@ -155,7 +153,6 @@ public class ReportServiceImpl implements ReportService {
 
 	@Override
 	public FrontDTO getFront() {
-		// TODO Auto-generated method stub
 		FrontDTO frontDTO = new FrontDTO();
 		FrontSummary frontSummary = new FrontSummary();
 		List<VehicleSummary> vehicleSummary = apiRepository.getVehicleSummary();
@@ -198,7 +195,6 @@ public class ReportServiceImpl implements ReportService {
 		result.add(vehicleTrip );
 		//
 		log.debug("getVehicleTrips {} {}", vehicleName, result.toString());
-		// TODO Auto-generated method stub
 		return result ;
 	}
 
@@ -216,7 +212,6 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	private Map<String, LocalDateTime> getTempRunTime(List<TemperatureLog> tripTemps) {
-		// TODO Auto-generated method stub
 		LocalDateTime pointStart = null;
 		LocalDateTime pointEnd = null;
 		try {

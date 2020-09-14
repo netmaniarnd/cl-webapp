@@ -2,52 +2,35 @@ package com.checklod.domain;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
-@Data
+@ToString
 @Entity
-@IdClass(TripSegmentId.class)
 @Table(name = "TemperatureLog")
 public class TemperatureLog {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
-	@EmbeddedId
-	@AttributeOverrides({
-		  @AttributeOverride( name = "tripId", column = @Column(name = "tripId")),
-		  @AttributeOverride( name = "seq", column = @Column(name = "seq", insertable=false, updatable=false))
-		})
-	@Getter(value=AccessLevel.NONE)
-	@Setter(value=AccessLevel.NONE)
-    private TripSegmentId tripSegmentId;
 
-    @Column(name="temperature")
+    @Column(name="temperature", nullable = true)
     private float temperature;
     
-    @Column(name="measuredAt", nullable = false, updatable = false)
+    @Column(name="measuredAt", nullable = true, updatable = false)
     @CreationTimestamp
     private LocalDateTime measuredAt;
     
@@ -59,6 +42,7 @@ public class TemperatureLog {
     @Column(name="sequence")
     private int sequence;
 
+    @NotNull(message = "RTC is mandatory")
     @Column(name="RTC")
     private String rtc;
     
@@ -66,59 +50,124 @@ public class TemperatureLog {
     @Column(name="int_temp")
     private float intTemp;
     
+    @NotNull(message = "int_hum is mandatory")
     @Column(name="int_hum")
     private float intHum;
     
+    @NotNull(message = "ext_hum is mandatory")
     @Column(name="ext_hum")
     private float extHum;
 
+    @NotNull(message = "ip_addr is mandatory")
     @Column(name="ip_addr")
     private String ipAddr;
 
     @ToString.Exclude 
-    private Trip trip;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "tripId", nullable = false, insertable=false, updatable=false)
-    public Trip getTrip() {
-    	return trip;
-    }
+    @JoinColumns( {
+        @JoinColumn(name="tripId", referencedColumnName="tripId"),
+        @JoinColumn(name="seq", referencedColumnName="seq")
+    } )
+    private TripSegment tripSegment;
 
-    @ToString.Exclude 
-    private Phone phone;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "phone_no", nullable = false, insertable=false, updatable=false)
-    public Phone getPhone() {
-    	return phone;
+    public TripSegment getTripSegment() {
+    	return tripSegment;
     }
     
     @ToString.Exclude 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "loggerId", nullable = true, insertable=false, updatable=false)
     private Logger logger;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "loggerId", nullable = false, insertable=false, updatable=false)
     public Logger getLogger() {
     	return logger;
     }
 
-    @Id
-    public long getTripId() {
-       return tripSegmentId.getTripId();
-    }
+	public long getId() {
+		return id;
+	}
 
-    @Id
-    public void setTripId(long tripId) {
-       tripSegmentId.setTripId(tripId);
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    @Id
-    public int getSeq() {
-       return tripSegmentId.getSeq();
-    }
+	public float getExtHum() {
+		return extHum;
+	}
 
-    @Id
-    public void setSeq(int seq) {
-       tripSegmentId.setSeq(seq);
-    }
+	public void setExtHum(float extHum) {
+		this.extHum = extHum;
+	}
+
+	public float getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(float temperature) {
+		this.temperature = temperature;
+	}
+
+	public LocalDateTime getMeasuredAt() {
+		return measuredAt;
+	}
+
+	public void setMeasuredAt(LocalDateTime measuredAt) {
+		this.measuredAt = measuredAt;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public int getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
+	}
+
+	public String getRtc() {
+		return rtc;
+	}
+
+	public void setRtc(String rtc) {
+		this.rtc = rtc;
+	}
+
+	public float getIntTemp() {
+		return intTemp;
+	}
+
+	public void setIntTemp(float intTemp) {
+		this.intTemp = intTemp;
+	}
+
+	public float getIntHum() {
+		return intHum;
+	}
+
+	public void setIntHum(float intHum) {
+		this.intHum = intHum;
+	}
+
+	public String getIpAddr() {
+		return ipAddr;
+	}
+
+	public void setIpAddr(String ipAddr) {
+		this.ipAddr = ipAddr;
+	}
+
+	public void setTripSegment(TripSegment tripSegment) {
+		this.tripSegment = tripSegment;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
 }

@@ -27,9 +27,9 @@ public class ReportController {
 		
         FrontDTO data = reportService.getFront();
         log.debug(data.toString());
-        //TODO need to be modified
+        // TODO need to be modified
 		model.addAttribute("packages", null);
-        //TODO need to be modified
+        // TODO need to be modified
 		return "reports";
 	}
 	

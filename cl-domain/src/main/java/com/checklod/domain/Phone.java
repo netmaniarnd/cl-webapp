@@ -34,6 +34,6 @@ public class Phone {
             orphanRemoval = true
 	)
     @ToString.Exclude 
-    private Set<TemperatureLog> temperatureLogs;
+    private Set<TripSegment> tripSegments;
 
 }
