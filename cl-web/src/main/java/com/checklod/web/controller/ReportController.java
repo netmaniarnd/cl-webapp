@@ -26,7 +26,7 @@ public class ReportController {
 
 	@Autowired
 	private ReportService reportService;
-
+	
 	@GetMapping("/front")
     public String front(Model model) {
   
