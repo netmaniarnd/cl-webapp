@@ -139,7 +139,7 @@ public class ReportServiceImpl implements ReportService {
 		//
 		List<TripMedia> tripMedia = tripRepository.findTripMediaByTripId(id);
 		List<MediaInfo> listMedia = new ArrayList<MediaInfo>();
-		tripMedia.forEach(item -> {
+		if(tripMedia != null) tripMedia.forEach(item -> {
 			MediaInfo mediaItem = new MediaInfo();
 			mediaItem.setImgType(item.getImgType());
 			mediaItem.setImgUrl(item.getImgUrl());
