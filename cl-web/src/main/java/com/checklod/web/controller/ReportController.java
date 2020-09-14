@@ -1,4 +1,4 @@
-package com.checklod.web.Controller;
+package com.checklod.web.controller;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -29,13 +29,13 @@ public class ReportController {
 
 	@GetMapping("/front")
     public String front(Model model) {
-		
-        FrontDTO data = reportService.getFront();
+  
+		FrontDTO data = reportService.getFront();
         log.debug(data.toString());
         // TODO need to be modified
-		model.addAttribute("packages", null);
+        model.addAttribute("packages", null);
         // TODO need to be modified
-		return "reports";
+        return "reports";
 	}
 	
 	@GetMapping("/reports")

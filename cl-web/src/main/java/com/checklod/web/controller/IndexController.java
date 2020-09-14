@@ -1,4 +1,4 @@
-package com.checklod.web.Controller;
+package com.checklod.web.controller;
 
 
 import org.springframework.stereotype.Controller;

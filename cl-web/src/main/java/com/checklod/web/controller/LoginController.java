@@ -1,4 +1,4 @@
-package com.checklod.web.Controller;
+package com.checklod.web.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
